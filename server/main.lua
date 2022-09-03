@@ -6,7 +6,8 @@ local availableJobs = {
     ["reporter"] = "News Reporter",
     ["garbage"] = "Garbage Collector",
     ["bus"] = "Bus Driver",
-    ["hotdog"] = "Hot Dog Stand"
+    ["hotdog"] = "Hot Dog Stand",
+	["miner"] = "Miner"
 }
 
 -- Functions
@@ -21,13 +22,31 @@ local function giveStarterItems()
             info.firstname = Player.PlayerData.charinfo.firstname
             info.lastname = Player.PlayerData.charinfo.lastname
             info.birthdate = Player.PlayerData.charinfo.birthdate
-            info.gender = Player.PlayerData.charinfo.gender
+            info.gender = Player.PlayerData.charinfo.gender == 0 and 'Male' or 'Female'
             info.nationality = Player.PlayerData.charinfo.nationality
+            info.type = Player.PlayerData.citizenid
+            info.description = [[
+	First Name: %s
+	Last Name: %s
+	DOB: %s
+	Sex: %s
+	Nationality: %s
+]]
+            info.description = (info.description):format(info.firstname:gsub("'", "\\'"), info.lastname:gsub("'", "\\'"), info.birthdate, info.gender, info.nationality:gsub("'", "\\'"))
         elseif v.item == "driver_license" then
             info.firstname = Player.PlayerData.charinfo.firstname
             info.lastname = Player.PlayerData.charinfo.lastname
             info.birthdate = Player.PlayerData.charinfo.birthdate
-            info.type = "Class C Driver License"
+            info.gender = Player.PlayerData.charinfo.gender == 0 and 'Male' or 'Female'
+            info.type = Player.PlayerData.citizenid
+            info.description = [[
+	First Name: %s
+	Last Name: %s
+	DOB: %s
+	Sex: %s
+	Type: %s
+]]
+            info.description = (info.description):format(info.firstname:gsub("'", "\\'"), info.lastname:gsub("'", "\\'"), info.birthdate, info.gender, "Class C Driver License")
         end
         Player.Functions.AddItem(v.item, 1, nil, info)
     end
@@ -53,21 +72,49 @@ RegisterNetEvent('qb-cityhall:server:requestId', function(item, hall)
         info.firstname = Player.PlayerData.charinfo.firstname
         info.lastname = Player.PlayerData.charinfo.lastname
         info.birthdate = Player.PlayerData.charinfo.birthdate
-        info.gender = Player.PlayerData.charinfo.gender
+        info.gender = Player.PlayerData.charinfo.gender == 0 and 'Male' or 'Female'
         info.nationality = Player.PlayerData.charinfo.nationality
+		info.type = Player.PlayerData.citizenid
+		info.description = [[
+	First Name: %s
+	Last Name: %s
+	DOB: %s
+	Sex: %s
+	Nationality: %s
+]]
+		info.description = (info.description):format(info.firstname:gsub("'", "\\'"), info.lastname:gsub("'", "\\'"), info.birthdate, info.gender, info.nationality:gsub("'", "\\'"))
     elseif item == "driver_license" then
         info.firstname = Player.PlayerData.charinfo.firstname
         info.lastname = Player.PlayerData.charinfo.lastname
         info.birthdate = Player.PlayerData.charinfo.birthdate
-        info.type = "Class C Driver License"
+		info.gender = Player.PlayerData.charinfo.gender == 0 and 'Male' or 'Female'
+		info.type = Player.PlayerData.citizenid
+		info.description = [[
+	First Name: %s
+	Last Name: %s
+	DOB: %s
+	Sex: %s
+	Type: %s
+]]
+		info.description = (info.description):format(info.firstname:gsub("'", "\\'"), info.lastname:gsub("'", "\\'"), info.birthdate, info.gender, "Class C Driver License")
     elseif item == "weaponlicense" then
         info.firstname = Player.PlayerData.charinfo.firstname
         info.lastname = Player.PlayerData.charinfo.lastname
         info.birthdate = Player.PlayerData.charinfo.birthdate
+		info.gender = Player.PlayerData.charinfo.gender == 0 and 'Male' or 'Female'
+		info.type = Player.PlayerData.citizenid
+		info.description = [[
+	First Name: %s
+	Last Name: %s
+	DOB: %s
+	Sex: %s
+]]
+		info.description = (info.description):format(info.firstname:gsub("'", "\\'"), info.lastname:gsub("'", "\\'"), info.birthdate, info.gender)
     else
         return DropPlayer(src, 'Attempted exploit abuse')
     end
     if not Player.Functions.AddItem(item, 1, nil, info) then return end
+	TriggerClientEvent('QBCore:Notify', src, ('You have received your id/license for $%s'):format(itemInfo.cost), 'success')
     TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], 'add')
 end)
 

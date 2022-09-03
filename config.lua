@@ -4,13 +4,13 @@ Config.UseTarget = GetConvar('UseTarget', 'false') == 'true' -- Use qb-target in
 
 Config.Cityhalls = {
     { -- Cityhall 1
-        coords = vec3(-265.0, -963.6, 31.2),
+        coords = vec3(-552.3, -191.7, 37.22),
         showBlip = true,
         blipData = {
-            sprite = 487,
+            sprite = 407,
             display = 4,
             scale = 0.65,
-            colour = 0,
+            colour = 48,
             title = "City Services"
         },
         licenses = {
@@ -27,6 +27,23 @@ Config.Cityhalls = {
                 label = "Weapon License",
                 cost = 50,
                 metadata = "weapon"
+            },
+        }
+    },
+    { -- Cityhall 2
+        coords = vec3(-234.87, -922.23, 31.31),
+        showBlip = true,
+        blipData = {
+            sprite = 407,
+            display = 4,
+            scale = 0.65,
+            colour = 48,
+            title = "City Services"
+        },
+        licenses = {
+            ["id_card"] = {
+                label = "ID Card",
+                cost = 50,
             },
         }
     },
@@ -52,15 +69,27 @@ Config.DrivingSchools = {
 }
 
 Config.Peds = {
-    -- Cityhall Ped
+    -- Cityhall 1 Ped
     {
-        model = 'a_m_m_hasjew_01',
-        coords = vec4(-262.79, -964.18, 30.22, 181.71),
+        model = 'a_m_y_business_03',
+        coords = vector4(-552.3, -191.7, 37.22, 207.82),
         scenario = 'WORLD_HUMAN_STAND_MOBILE',
         cityhall = true,
         zoneOptions = { -- Used for when UseTarget is false
-            length = 3.0,
-            width = 3.0,
+            length = 5.0,
+            width = 5.0,
+            debugPoly = false
+        }
+    },
+    -- Cityhall 2 Ped
+    {
+        model = 'a_m_y_stbla_02',
+        coords = vector4(-234.87, -922.23, 31.31, 335.14),
+        scenario = 'WORLD_HUMAN_SUPERHERO',
+        cityhall = true,
+        zoneOptions = { -- Used for when UseTarget is false
+            length = 5.0,
+            width = 5.0,
             debugPoly = false
         }
     },
